@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of the bank paymnts module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -20,10 +20,9 @@
  * File         edit.php
  * Encoding     UTF-8
  *
- * @package     enrol_gwpayments
+ * @package     paygw_bank
  *
- * @copyright   2021 Ing. R.J. van Dongen
- * @author      Ing. R.J. van Dongen <rogier@sebsoft.nl>
+ * @copyright   UNESCO/IESALC
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of the bank paymnts module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * Strings for component 'paygw_bank', language 'en'
  *
  * @package    paygw_bank
- * @copyright  2021 Carlos Vicente Corral <c.vicente@unesco.org>
+ * @copyright  UNESCO/IESALC
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['gatewaydescription'] = 'bank is an authorised payment gateway provider for processing credit card transactions.';
@@ -38,7 +38,7 @@ $string['transference_code'] = 'This is your code to include in your transfer co
 $string['the_price_is'] = 'The total price is {$a}.';
 $string['surcharge_info'] = 'This payment method has a surcharge of {$a}.';
 $string['start_process'] = 'Start process';
-$string['Allow_users_add_files'] = 'Allow users add files';
+$string['allow_users_add_files'] = 'Allow users add files';
 $string['hasfiles'] = 'Has files';
 $string['transfer_process_initiated'] = 'Transfer process initiated';
 $string['pending_payments'] = 'Pending transfer payments';

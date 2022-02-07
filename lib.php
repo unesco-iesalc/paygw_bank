@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of the bank paymnts module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -17,8 +17,9 @@
 /**
  * Plugin version and other meta-data are defined here.
  *
- * @package     tool_policy
- * @copyright   2018 David Mudrák <david@moodle.com>
+ * @package     paygw_bank
+ * @copyright   UNESCO/IESALC
+ * @author      Carlos Vicente Corral <c.vicente@unesco.org>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

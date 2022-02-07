@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of the bank paymnts module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
  * Contains class for bank payment gateway.
  *
  * @package    paygw_bank
- * @copyright  2019 Shamim Rezaie <shamim@moodle.com>
+ * @copyright  UNESCO/IESALC
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,7 +27,7 @@ namespace paygw_bank;
 /**
  * The gateway class for bank payment gateway.
  *
- * @copyright  2019 Shamim Rezaie <shamim@moodle.com>
+ * @copyright  UNESCO/IESALC
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class gateway extends \core_payment\gateway {

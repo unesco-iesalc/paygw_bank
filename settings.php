@@ -1,5 +1,5 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
+// This file is part of the bank paymnts module for Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -18,7 +18,8 @@
  * Settings for the bank payment gateway
  *
  * @package    paygw_bank
- * @copyright  2019 Shamim Rezaie <shamim@moodle.com>
+ * @copyright  UNESCO/IESALC
+ * @author     Carlos Vicente Corral <c.vicente@unesco.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -27,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('paygw_bank_settings', '', get_string('pluginname_desc', 'paygw_bank')));
-    $settings->add(new admin_setting_configcheckbox('paygw_bank/usercanuploadfiles',get_string('Allow_users_add_files', 'paygw_bank'),'' , 0));
+    $settings->add(new admin_setting_configcheckbox('paygw_bank/usercanuploadfiles',get_string('allow_users_add_files', 'paygw_bank'),'' , 0));
     \core_payment\helper::add_common_gateway_settings($settings, 'paygw_bank');
     $settings->add(new admin_setting_configcheckbox('paygw_bank/sendconfmail',get_string('send_confirmation_mail', 'paygw_bank'), '', 0));
     \core_payment\helper::add_common_gateway_settings($settings, 'paygw_bank');
