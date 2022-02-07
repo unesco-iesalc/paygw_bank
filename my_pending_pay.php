@@ -1,8 +1,6 @@
 <?php
 use core_payment\helper;
 use paygw_bank\bank_helper;
-use paygw_bank\pay_form;
-use paygw_bank\attachtransfer_form;
 
 require_once(__DIR__ . '/../../../config.php');
 require_once('./lib.php');
@@ -25,7 +23,6 @@ $bank_entries= bank_helper::get_user_pending($USER->id);
 if (!$bank_entries) {
     $match = array();
     echo $OUTPUT->heading(get_string('noentriesfound', 'paygw_bank'));
-
     $table = NULL;
 
 } else
