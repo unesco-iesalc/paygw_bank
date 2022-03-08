@@ -10,7 +10,7 @@ $PAGE->set_context($context);
 
 $PAGE->set_url('/payment/gateway/bank/manage.php');
 $PAGE->set_pagelayout('report');
-$pagetitle = 'Manage solicitudes';
+$pagetitle = get_string('manage', 'paygw_bank');
 $PAGE->set_title($pagetitle);
 $PAGE->set_heading($pagetitle);
 $confirm = optional_param('confirm', 0, PARAM_INT);
@@ -65,17 +65,17 @@ if (!$bank_entries) {
         // Add surcharge if there is any.
         $surcharge = helper::get_gateway_surcharge('paypal');
         $amount = helper::get_rounded_cost($payable->get_amount(), $currency, $surcharge);
-        $buttonaprobe='<form name="formaprovepay'.$bank_entry->id.'" method="POST">
+        $buttonaprobe='<form name="formapprovepay'.$bank_entry->id.'" method="POST">
         <input type="hidden" name="id" value="'.$bank_entry->id.'">
         <input type="hidden" name="action" value="A">
         <input type="hidden" name="confirm" value="1">
-        <input type="submit" value="Aprobar"></input>
+        <input class="btn btn-primary form-submit" type="submit" value="'.get_string('approve', 'paygw_bank').'"></input>
         </form>';
         $buttondeny='<form name="formaprovepay'.$bank_entry->id.'" method="POST">
         <input type="hidden" name="id" value="'.$bank_entry->id.'">
         <input type="hidden" name="action" value="D">
         <input type="hidden" name="confirm" value="1">
-        <input type="submit" value="denegar"></input>
+        <input class="btn btn-primary form-submit" type="submit" value="'.get_string('deny', 'paygw_bank').'"></input>
         </form>';
         $files="-";
         $hasfiles=get_string('no');

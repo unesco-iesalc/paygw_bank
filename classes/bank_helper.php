@@ -157,12 +157,13 @@ class bank_helper {
 
         $id = $DB->insert_record('paygw_bank', $record);
         $record->id=$id;
-
+        $record->code=bank_helper::create_code($id);
+        $DB->update_record('paygw_bank', $record);
         return $record;
     }
+    public static function create_code($id): string {
+        return "code_".$id;
 
-
-
-
+    }
 }
  
