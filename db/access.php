@@ -1,6 +1,6 @@
 <?php
-    $capabilities = array(
- 
+$capabilities = array(
+
     'paygw/bank:managepayments' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,

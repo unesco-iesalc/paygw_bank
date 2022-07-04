@@ -30,8 +30,10 @@ namespace paygw_bank;
  * @copyright  UNESCO/IESALC
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class gateway extends \core_payment\gateway {
-    public static function get_supported_currencies(): array {
+class gateway extends \core_payment\gateway
+{
+    public static function get_supported_currencies(): array
+    {
         // See https://developer.bank.com/docs/api/reference/currency-codes/,
         // 3-character ISO-4217: https://en.wikipedia.org/wiki/ISO_4217#Active_codes.
         return [
@@ -47,7 +49,8 @@ class gateway extends \core_payment\gateway {
      *
      * @param \core_payment\form\account_gateway $form
      */
-    public static function add_configuration_to_gateway_form(\core_payment\form\account_gateway $form): void {
+    public static function add_configuration_to_gateway_form(\core_payment\form\account_gateway $form): void
+    {
         $mform = $form->get_mform();
         $mform->addElement('checkbox', 'upload', get_string('instructionstext', 'paygw_bank'));
         $mform->setType('instructionstext', PARAM_RAW);
@@ -55,7 +58,6 @@ class gateway extends \core_payment\gateway {
         $mform->setType('instructionstext', PARAM_RAW);
         $mform->addElement('editor', 'postinstructionstext', get_string('postinstructionstext', 'paygw_bank'));
         $mform->setType('postinstructionstext', PARAM_RAW);
-
     }
 
     /**
@@ -66,8 +68,12 @@ class gateway extends \core_payment\gateway {
      * @param array $files
      * @param array $errors form errors (passed by reference)
      */
-    public static function validate_gateway_form(\core_payment\form\account_gateway $form,
-                                                 \stdClass $data, array $files, array &$errors): void {
+    public static function validate_gateway_form(
+        \core_payment\form\account_gateway $form,
+        \stdClass $data,
+        array $files,
+        array &$errors
+    ): void {
         if (!$data->enabled) {
             $errors['enabled'] = get_string('gatewaycannotbeenabled', 'payment');
         }

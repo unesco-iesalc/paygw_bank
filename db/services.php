@@ -30,7 +30,6 @@ $functions = [
         'classpath'   => '',
         'description' => 'Returns the configuration settings to be used in js',
         'type'        => 'read',
-        'ajax'        => true,
+        'ajax'        => true
     ]
-    
 ];

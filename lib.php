@@ -25,47 +25,40 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
-function paygw_bank_myprofile_navigation(core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course) {
+function paygw_bank_myprofile_navigation(core_user\output\myprofile\tree $tree, $user, $iscurrentuser, $course)
+{
     $url = new moodle_url('/payment/gateway/bank/my_pending_pay.php');
     $category = new core_user\output\myprofile\category('payments', get_string('payments', 'paygw_bank'), null);
-    $node = new core_user\output\myprofile\node('payments', 'my_pending_payments',
-    get_string('my_pending_payments', 'paygw_bank'), null, $url);
+    $node = new core_user\output\myprofile\node(
+        'payments',
+        'my_pending_payments',
+        get_string('my_pending_payments', 'paygw_bank'),
+        null,
+        $url
+    );
     $tree->add_category($category);
     $tree->add_node($node);
-   
-
-   
 }
 
-
-function paygw_bank_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
-  
-    // Make sure the filearea is one of those used by the plugin.
-    if ($filearea !== 'transfer' ) {
+function paygw_bank_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array())
+{
+    if ($filearea !== 'transfer') {
         return false;
     }
 
     // Make sure the user is logged in and has access to the module (plugins that are not course modules should leave out the 'cm' part).
     require_login();
-/*
-    // Check the relevant capabilities - these may vary depending on the filearea being accessed.
-    if (!has_capability('mod/MYPLUGIN:view', $context)) {
-        return false;
-    }
-*/
-    // Leave this line out if you set the itemid to null in make_pluginfile_url (set $itemid to 0 instead).
     $itemid = array_shift($args); // The first item in the $args array.
-    
+
     // Use the itemid to retrieve any relevant data records and perform any security checks to see if the
     // user really does have access to the file in question.
 
     // Extract the filename / filepath from the $args array.
-    $filename = array_pop($args); // The last item in the $args array.
+    $filename = array_pop($args);
     if (!$args) {
-        $filepath = '/'; // $args is empty => the path is '/'
+        $filepath = '/';
     } else {
-        $filepath = '/'.implode('/', $args).'/'; // $args contains elements of the filepath
+        $filepath = '/' . implode('/', $args) . '/'; // $args contains elements of the filepath
     }
 
     // Retrieve the file from the Files API.
@@ -80,8 +73,8 @@ function paygw_bank_pluginfile($course, $cm, $context, $filearea, $args, $forced
 }
 
 if (!function_exists('str_ends_with')) {
-    function str_ends_with($str, $end) {
-      return (@substr_compare($str, $end, -strlen($end))==0);
+    function str_ends_with($str, $end)
+    {
+        return (@substr_compare($str, $end, -strlen($end)) == 0);
     }
-  }
-  
+}

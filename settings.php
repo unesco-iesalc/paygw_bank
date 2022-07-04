@@ -28,19 +28,20 @@ defined('MOODLE_INTERNAL') || die();
 if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('paygw_bank_settings', '', get_string('pluginname_desc', 'paygw_bank')));
-    $settings->add(new admin_setting_configcheckbox('paygw_bank/usercanuploadfiles',get_string('allow_users_add_files', 'paygw_bank'),'' , 0));
+    $settings->add(new admin_setting_configcheckbox('paygw_bank/usercanuploadfiles', get_string('allow_users_add_files', 'paygw_bank'), '', 0));
     \core_payment\helper::add_common_gateway_settings($settings, 'paygw_bank');
-    $settings->add(new admin_setting_configcheckbox('paygw_bank/sendconfmail',get_string('send_confirmation_mail', 'paygw_bank'), '', 0));
+    $settings->add(new admin_setting_configcheckbox('paygw_bank/sendconfmail', get_string('send_confirmation_mail', 'paygw_bank'), '', 0));
     \core_payment\helper::add_common_gateway_settings($settings, 'paygw_bank');
-
-    $settings->add(new admin_setting_configcheckbox('paygw_bank/senddenmail',get_string('send_denied_mail', 'paygw_bank'), '', 0));
+    $settings->add(new admin_setting_configcheckbox('paygw_bank/senddenmail', get_string('send_denied_mail', 'paygw_bank'), '', 0));
     \core_payment\helper::add_common_gateway_settings($settings, 'paygw_bank');
-
 }
 $systemcontext = \context_system::instance();
 if (has_capability('paygw/bank:managepayments', $systemcontext)) {
     $node = new admin_category('bank', get_string('pluginname', 'paygw_bank'));
     $ADMIN->add('root', $node);
-    $ADMIN->add('bank', new admin_externalpage('managetransfers', get_string('manage', 'paygw_bank'),
-            new moodle_url('/payment/gateway/bank/manage.php')));
+    $ADMIN->add('bank', new admin_externalpage(
+        'managetransfers',
+        get_string('manage', 'paygw_bank'),
+        new moodle_url('/payment/gateway/bank/manage.php')
+    ));
 }

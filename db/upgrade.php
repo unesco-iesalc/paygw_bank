@@ -21,7 +21,6 @@
  * @copyright  UNESCO/IESALC
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 /**
@@ -30,7 +29,8 @@ defined('MOODLE_INTERNAL') || die();
  * @param int $oldversion the version we are upgrading from
  * @return bool always true
  */
-function xmldb_paygw_bank_upgrade(int $oldversion): bool {
+function xmldb_paygw_bank_upgrade(int $oldversion): bool
+{
     global $DB;
 
     return true;

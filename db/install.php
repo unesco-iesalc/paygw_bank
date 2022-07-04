@@ -22,7 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-function xmldb_paygw_bank_install() {
+function xmldb_paygw_bank_install()
+{
     global $CFG;
 
     // Enable the bank payment gateway on installation. It still needs to be configured and enabled for accounts.

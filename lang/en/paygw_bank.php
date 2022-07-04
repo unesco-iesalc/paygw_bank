@@ -56,5 +56,3 @@ $string['mail_confirm_pay'] = 'Dear {$a->username}. Your payment for "{$a->conce
 $string['mail_denied_pay'] = 'Dear {$a->username}. Your payment for "{$a->concept}" is denied. ';
 $string['mail_confirm_pay_subject'] = ' confirmation mail subject';
 $string['mail_denied_pay_subject'] = 'Denied mail subject';
-
-

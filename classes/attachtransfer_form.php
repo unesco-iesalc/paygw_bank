@@ -33,12 +33,14 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/formslib.php');
 
 
-class attachtransfer_form extends \moodleform {
+class attachtransfer_form extends \moodleform
+{
 
     /**
      * form definition
      */
-    public function definition() {
+    public function definition()
+    {
         global $CFG;
         $maxbytes = 0;
         if (!empty($CFG->maxbytes)) {
@@ -46,29 +48,32 @@ class attachtransfer_form extends \moodleform {
         }
         $mform = $this->_form;
         $mform->setDisableShortforms(true);
-        $mform->addElement('hidden', 'confirm' );
-        $mform->setDefault('confirm',2);
+        $mform->addElement('hidden', 'confirm');
+        $mform->setDefault('confirm', 2);
         $mform->setType('confirm', PARAM_INT);
-        $mform->addElement('hidden', 'component' );
+        $mform->addElement('hidden', 'component');
         $mform->setType('component', PARAM_TEXT);
-        $mform->addElement('hidden', 'paymentarea' );
+        $mform->addElement('hidden', 'paymentarea');
         $mform->setType('paymentarea', PARAM_TEXT);
-        $mform->addElement('hidden', 'itemid' );
+        $mform->addElement('hidden', 'itemid');
         $mform->setType('itemid', PARAM_INT);
-        $mform->addElement('hidden', 'description' );
+        $mform->addElement('hidden', 'description');
         $mform->setType('description', PARAM_TEXT);
-        $mform->addElement('filepicker', 'userfile', get_string('file'), null,
-                   array('maxbytes' => $maxbytes, 'accepted_types' => '*'));
-            $mform->addRule('userfile', null, 'required');
+        $mform->addElement(
+            'filepicker',
+            'userfile',
+            get_string('file'),
+            null,
+            array('maxbytes' => $maxbytes, 'accepted_types' => '*')
+        );
+        $mform->addRule('userfile', null, 'required');
 
         $mform->addElement('submit', 'submitbutton', get_string('upload'));
-
     }
-    public function validation($data, $files) {
+    public function validation($data, $files)
+    {
         global $DB;
         $errors = parent::validation($data, $files);
         return $errors;
     }
-
-
 }

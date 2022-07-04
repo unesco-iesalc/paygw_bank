@@ -36,14 +36,16 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir . '/externallib.php');
 
-class get_config_for_js extends external_api {
+class get_config_for_js extends external_api
+{
 
     /**
      * Returns description of method parameters.
      *
      * @return external_function_parameters
      */
-    public static function execute_parameters(): external_function_parameters {
+    public static function execute_parameters(): external_function_parameters
+    {
         return new external_function_parameters([
             'component' => new external_value(PARAM_COMPONENT, 'Component'),
             'paymentarea' => new external_value(PARAM_AREA, 'Payment area in the component'),
@@ -59,7 +61,8 @@ class get_config_for_js extends external_api {
      * @param int $itemid
      * @return string[]
      */
-    public static function execute(string $component, string $paymentarea, int $itemid): array {
+    public static function execute(string $component, string $paymentarea, int $itemid): array
+    {
         self::validate_parameters(self::execute_parameters(), [
             'component' => $component,
             'paymentarea' => $paymentarea,
@@ -83,7 +86,8 @@ class get_config_for_js extends external_api {
      *
      * @return external_single_structure
      */
-    public static function execute_returns(): external_single_structure {
+    public static function execute_returns(): external_single_structure
+    {
         return new external_single_structure([
             'clientid' => new external_value(PARAM_TEXT, 'bank client ID'),
             'brandname' => new external_value(PARAM_TEXT, 'Brand name'),
