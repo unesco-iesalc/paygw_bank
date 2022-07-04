@@ -28,6 +28,7 @@ require_capability('paygw/bank:managepayments', $systemcontext);
 
 echo $OUTPUT->heading(get_string('pending_payments', 'paygw_bank'), 2);
 if ($confirm == 1 && $id > 0) {
+    require_sesskey();
     if ($action == 'A') {
         bank_helper::aprobe_pay($id);
         $OUTPUT->notification("aprobed");
@@ -39,7 +40,7 @@ if ($confirm == 1 && $id > 0) {
         $OUTPUT->notification("denied");
     }
 }
-
+$post_url= new moodle_url($PAGE->url, array('sesskey'=>sesskey()));
 $bank_entries = bank_helper::get_pending();
 if (!$bank_entries) {
     $match = array();
@@ -65,12 +66,14 @@ if (!$bank_entries) {
         $surcharge = helper::get_gateway_surcharge('paypal');
         $amount = helper::get_rounded_cost($payable->get_amount(), $currency, $surcharge);
         $buttonaprobe = '<form name="formapprovepay' . $bank_entry->id . '" method="POST">
+        <input type="hidden" name="sesskey" value="' .sesskey(). '">
         <input type="hidden" name="id" value="' . $bank_entry->id . '">
         <input type="hidden" name="action" value="A">
         <input type="hidden" name="confirm" value="1">
         <input class="btn btn-primary form-submit" type="submit" value="' . get_string('approve', 'paygw_bank') . '"></input>
         </form>';
         $buttondeny = '<form name="formaprovepay' . $bank_entry->id . '" method="POST">
+        <input type="hidden" name="sesskey" value="' .sesskey(). '">
         <input type="hidden" name="id" value="' . $bank_entry->id . '">
         <input type="hidden" name="action" value="D">
         <input type="hidden" name="confirm" value="1">
