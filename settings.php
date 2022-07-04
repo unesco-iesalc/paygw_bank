@@ -37,10 +37,10 @@ if ($ADMIN->fulltree) {
     \core_payment\helper::add_common_gateway_settings($settings, 'paygw_bank');
 
 }
-
-if ($hassiteconfig) {
+$systemcontext = \context_system::instance();
+if (has_capability('paygw/bank:managepayments', $systemcontext)) {
     $node = new admin_category('bank', get_string('pluginname', 'paygw_bank'));
     $ADMIN->add('root', $node);
     $ADMIN->add('bank', new admin_externalpage('bank', get_string('manage', 'paygw_bank'),
-            new moodle_url('/payment/gateway/bank/manage.php', array('page' => 'aiocoupons'))));
+            new moodle_url('/payment/gateway/bank/manage.php')));
 }

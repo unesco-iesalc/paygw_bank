@@ -22,19 +22,19 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['gatewaydescription'] = 'bank is an authorised payment gateway provider for processing credit card transactions.';
-$string['gatewayname'] = 'Bank Transference';
+$string['gatewayname'] = 'Bank Transfer';
 $string['concept'] = 'Concept';
 $string['cost'] = 'Cost';
 $string['code'] = 'Code';
 $string['total_cost'] = 'Total cost';
 $string['transfer_code'] = 'Transfer code';
 $string['internalerror'] = 'An internal error has occurred. Please contact us.';
-$string['pluginname'] = 'Bank Transference';
-$string['pluginname_desc'] = 'The Bank Transference plugin allows to pay courses by bank transference or other manual payment methods.';
-$string['privacy:metadata'] = 'The Bank Transference plugin does not store any personal data.';
+$string['pluginname'] = 'Bank Transfer';
+$string['pluginname_desc'] = 'The Bank Transfer plugin allows to pay courses by bank Transfer or other manual payment methods.';
+$string['privacy:metadata'] = 'The Bank Transfer plugin does not store any personal data.';
 $string['instructionstext'] = 'Instructions that show previously to acept transfer payment.';
 $string['postinstructionstext'] = 'Instructions that show after acept transfer payment.';
-$string['transference_code'] = 'This is your code to include in your transfer concept {$a}.';
+$string['Transfer_code'] = 'This is your code to include in your transfer concept {$a}.';
 $string['the_price_is'] = 'The total price is {$a}.';
 $string['surcharge_info'] = 'This payment method has a surcharge of {$a}.';
 $string['start_process'] = 'Start process';

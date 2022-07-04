@@ -31,13 +31,6 @@ $functions = [
         'description' => 'Returns the configuration settings to be used in js',
         'type'        => 'read',
         'ajax'        => true,
-    ],
-    'paygw_bank_create_transaction_complete' => [
-        'classname'   => 'paygw_bank\external\transaction_complete',
-        'classpath'   => '',
-        'description' => 'Takes care of what needs to be done when a bank transaction comes back as complete.',
-        'type'        => 'write',
-        'ajax'        => true,
-        'loginrequired' => false,
-    ],
+    ]
+    
 ];
