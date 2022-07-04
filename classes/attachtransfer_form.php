@@ -39,16 +39,24 @@ class attachtransfer_form extends \moodleform {
      * form definition
      */
     public function definition() {
-        $instructions=$config->instructionstext['text'] ;
+        global $CFG;
+        $maxbytes = 0;
+        if (!empty($CFG->maxbytes)) {
+            $maxbytes = $CFG->maxbytes;
+        }
         $mform = $this->_form;
         $mform->setDisableShortforms(true);
         $mform->addElement('hidden', 'confirm' );
         $mform->setDefault('confirm',2);
+        $mform->setType('confirm', PARAM_INT);
         $mform->addElement('hidden', 'component' );
+        $mform->setType('component', PARAM_TEXT);
         $mform->addElement('hidden', 'paymentarea' );
+        $mform->setType('paymentarea', PARAM_TEXT);
         $mform->addElement('hidden', 'itemid' );
+        $mform->setType('itemid', PARAM_INT);
         $mform->addElement('hidden', 'description' );
-        $buttonarray=array();
+        $mform->setType('description', PARAM_TEXT);
         $mform->addElement('filepicker', 'userfile', get_string('file'), null,
                    array('maxbytes' => $maxbytes, 'accepted_types' => '*'));
             $mform->addRule('userfile', null, 'required');

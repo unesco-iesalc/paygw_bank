@@ -41,6 +41,6 @@ $systemcontext = \context_system::instance();
 if (has_capability('paygw/bank:managepayments', $systemcontext)) {
     $node = new admin_category('bank', get_string('pluginname', 'paygw_bank'));
     $ADMIN->add('root', $node);
-    $ADMIN->add('bank', new admin_externalpage('bank', get_string('manage', 'paygw_bank'),
+    $ADMIN->add('bank', new admin_externalpage('managetransfers', get_string('manage', 'paygw_bank'),
             new moodle_url('/payment/gateway/bank/manage.php')));
 }

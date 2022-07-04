@@ -8,6 +8,8 @@ require_once(__DIR__ . '/../../../config.php');
 require_once('./lib.php');
 $canuploadfiles=get_config('paygw_bank', 'usercanuploadfiles');
 require_login();
+$context = context_system::instance(); // Because we "have no scope".
+$PAGE->set_context($context);
 $component = required_param('component', PARAM_COMPONENT);
 $paymentarea = required_param('paymentarea', PARAM_AREA);
 $itemid = required_param('itemid', PARAM_INT);

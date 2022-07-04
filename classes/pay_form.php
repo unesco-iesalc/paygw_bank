@@ -39,16 +39,23 @@ class pay_form extends \moodleform {
      * form definition
      */
     public function definition() {
-        $instructions=$config->instructionstext['text'] ;
         $mform = $this->_form;
         $mform->setDisableShortforms(true);
         $mform->addElement('hidden', 'confirm' );
         $mform->setDefault('confirm',1);
+        $mform->setType('confirm', PARAM_INT);
         $mform->addElement('hidden', 'component' );
+        $mform->setType('component', PARAM_TEXT);
+       
         $mform->addElement('hidden', 'paymentarea' );
+        $mform->setType('paymentarea', PARAM_TEXT);
+       
         $mform->addElement('hidden', 'itemid' );
+        $mform->setType('itemid', PARAM_INT);
+       
         $mform->addElement('hidden', 'description' );
-        $buttonarray=array();
+        $mform->setType('description', PARAM_TEXT);
+       
         $mform->addElement('submit', 'submitbutton', get_string('start_process', 'paygw_bank'));
 
     }
