@@ -15,6 +15,7 @@ $PAGE->set_pagelayout('report');
 $pagetitle = get_string('manage', 'paygw_bank');
 $PAGE->set_title($pagetitle);
 $PAGE->set_heading($pagetitle);
+$PAGE->navbar->add(get_string('pluginname', 'paygw_bank'),$PAGE->url);
 $confirm = optional_param('confirm', 0, PARAM_INT);
 $id = optional_param('id', 0, PARAM_INT);
 $action = optional_param('action', '', PARAM_TEXT);
