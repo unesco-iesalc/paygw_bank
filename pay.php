@@ -114,22 +114,6 @@ if ($bank_entry != null) {
 }
 echo "</ul>";
 echo '<div id="bankinstructions">' . $instructions . '</div>';
-function my_mktempdir($dir, $prefix = '')
-{
-    global $CFG;
-
-    if (substr($dir, -1) != '/') {
-        $dir .= '/';
-    }
-
-    do {
-        $path = $dir . $prefix . mt_rand(0, 9999999);
-    } while (file_exists($path));
-
-    check_dir_exists($path);
-
-    return $path;
-}
 if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
     $mform->display();
 } else {
@@ -152,7 +136,7 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
 
             $name = $at_form->get_new_filename('userfile');
             if ($name) {
-                $tempdir = my_mktempdir($CFG->tempdir . '/', 'pay');
+                $tempdir = make_request_directory();
                 $fullpath = $tempdir . '/' . $name;
                 $success = $at_form->save_file('userfile', $fullpath, $override);
                 $fileinfo = array(
