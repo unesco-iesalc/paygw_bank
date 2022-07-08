@@ -1,10 +1,12 @@
 # Bank transferences payment gateway
 
 Tihs plugin, is a moodle payment gateway that provides support to payments made by bank transferences, or another manual payment methods that need to be approved by a person.
+This plugin is developed by UNESCO-IESALC for their campus moodle platform. https://campus.iesalc.unesco.org/
+
 
 ## Instalation.
 
-This plugin is tested in moodle 3.11 
+This plugin is tested in moodle 3.11 and 4.0.
 Just like another plugin, you can install from de Moodle plugins directory.
 You can also download the zip in the releases section and install directly in "Site administration ">Plugins >"Install plugins"
 
