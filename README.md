@@ -8,7 +8,7 @@ This plugin is developed by UNESCO-IESALC for their campus moodle platform. http
 
 This plugin is tested in moodle 3.11 and 4.0.
 
-Just like another plugin, you can install from de Moodle plugins directory.
+Just like another plugin, you can install from the Moodle plugins directory.   https://moodle.org/plugins/paygw_bank
 You can also download the zip in the releases section and install directly in "Site administration ">Plugins >"Install plugins"
 
 ## Global configuration.
