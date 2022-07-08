@@ -13,13 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
  * Strings for component 'paygw_bank', language 'en'
  *
- * @package    paygw_bank
- * @copyright  UNESCO/IESALC
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   paygw_bank
+ * @copyright UNESCO/IESALC
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['gatewaydescription'] = 'bank is an authorised payment gateway provider for processing credit card transactions.';
 $string['gatewayname'] = 'Bank Transfer';

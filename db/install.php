@@ -13,13 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
  * paygw_bank installer script.
  *
- * @package    paygw_bank
- * @copyright  UNESCO/IESALC
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   paygw_bank
+ * @copyright UNESCO/IESALC
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 function xmldb_paygw_bank_install()

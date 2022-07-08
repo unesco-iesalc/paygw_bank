@@ -5,8 +5,8 @@ use paygw_bank\bank_helper;
 use paygw_bank\pay_form;
 use paygw_bank\attachtransfer_form;
 
-require_once(__DIR__ . '/../../../config.php');
-require_once('./lib.php');
+require_once __DIR__ . '/../../../config.php';
+require_once './lib.php';
 $canuploadfiles = get_config('paygw_bank', 'usercanuploadfiles');
 require_login();
 $context = context_system::instance(); // Because we "have no scope".
@@ -117,7 +117,6 @@ echo '<div id="bankinstructions">' . $instructions . '</div>';
 if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
     $mform->display();
 } else {
-
     if ($canuploadfiles) {
         $at_form->display();
         $fs = get_file_storage();

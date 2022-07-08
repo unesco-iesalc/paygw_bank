@@ -17,11 +17,10 @@
 /**
  * Contains helper class to work with PayPal REST API.
  *
- * @package    paygw_bank
- * @copyright  UNESCO/IESALC
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   paygw_bank
+ * @copyright UNESCO/IESALC
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 namespace paygw_bank;
 
 use curl;
@@ -29,7 +28,7 @@ use core_user;
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir . '/filelib.php');
+require_once $CFG->libdir . '/filelib.php';
 
 use core_payment\helper as payment_helper;
 use stdClass;

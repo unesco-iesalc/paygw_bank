@@ -13,13 +13,12 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
  * External functions and service definitions for the bank payment gateway plugin.
  *
- * @package    paygw_bank
- * @copyright  UNESCO/IESALC
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   paygw_bank
+ * @copyright UNESCO/IESALC
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();

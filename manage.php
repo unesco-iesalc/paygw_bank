@@ -4,8 +4,8 @@ use core_payment\helper;
 use paygw_bank\bank_helper as Paygw_bankBank_helper;
 use paygw_bank\bank_helper;
 
-require_once(__DIR__ . '/../../../config.php');
-require_once('./lib.php');
+require_once __DIR__ . '/../../../config.php';
+require_once './lib.php';
 require_login();
 $context = context_system::instance(); // Because we "have no scope".
 $PAGE->set_context($context);
@@ -15,14 +15,11 @@ $PAGE->set_pagelayout('report');
 $pagetitle = get_string('manage', 'paygw_bank');
 $PAGE->set_title($pagetitle);
 $PAGE->set_heading($pagetitle);
-$PAGE->navbar->add(get_string('pluginname', 'paygw_bank'),$PAGE->url);
+$PAGE->navbar->add(get_string('pluginname', 'paygw_bank'), $PAGE->url);
 $confirm = optional_param('confirm', 0, PARAM_INT);
 $id = optional_param('id', 0, PARAM_INT);
 $action = optional_param('action', '', PARAM_TEXT);
 
-//$config = (object) helper::get_gateway_configuration($component, $paymentarea, $itemid, 'bank');
-//$payable = helper::get_payable($component, $paymentarea, $itemid);
-//$surcharge = helper::get_gateway_surcharge('bank');
 echo $OUTPUT->header();
 
 require_capability('paygw/bank:managepayments', $systemcontext);
@@ -47,7 +44,7 @@ if (!$bank_entries) {
     $match = array();
     echo $OUTPUT->heading(get_string('noentriesfound', 'paygw_bank'));
 
-    $table = NULL;
+    $table = null;
 } else {
     $table = new html_table();
     $table->head = array(
