@@ -55,6 +55,12 @@ if (!$bank_entries) {
         $amount,$currency);
      
         if($canuploadfiles) {
+            $hasfiles = get_string('no');
+            
+            $files=bank_helper::files($bank_entry->id);
+            if ( count($files)>0) {
+                $hasfiles = get_string('yes');
+            }
             array_push($dataarray, $hasfiles);
         }
         array_push($dataarray, $buttongo);

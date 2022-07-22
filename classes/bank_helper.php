@@ -93,6 +93,19 @@ class bank_helper
 
         return $record;
     }
+    public static function files($id): array
+    {
+        $fs = get_file_storage();
+        $files = $fs->get_area_files(\context_system::instance()->id, 'paygw_bank', 'transfer', $id);
+        $realfiles=array();
+        foreach ($files as $f) {
+            if($f->get_filename()!='.')
+            {
+                array_push($realfiles,$f);
+            }
+        }
+        return $realfiles;
+    }
     public static function deny_pay($id): \stdClass
     {
         global $DB, $USER;

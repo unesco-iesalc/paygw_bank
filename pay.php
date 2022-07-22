@@ -8,6 +8,11 @@ use paygw_bank\attachtransfer_form;
 require_once __DIR__ . '/../../../config.php';
 require_once './lib.php';
 $canuploadfiles = get_config('paygw_bank', 'usercanuploadfiles');
+$maxnumberfiles = get_config('paygw_bank', 'maxnumberfiles');
+if(!$maxnumberfiles)
+{
+    $maxnumberfiles=3;
+}
 require_login();
 $context = context_system::instance(); // Because we "have no scope".
 $PAGE->set_context($context);
@@ -76,7 +81,6 @@ $instructions = $config->instructionstext['text'];
 if (bank_helper::has_openbankentry($itemid, $USER->id)) {
     $bank_entry = bank_helper::get_openbankentry($itemid, $USER->id);
     $amount = $bank_entry->totalamount;
-    \core\notification::info(get_string('transfer_process_initiated', 'paygw_bank'));
     $confirm = 0;
 } else {
 
@@ -118,41 +122,85 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
     $mform->display();
 } else {
     if ($canuploadfiles) {
-        $at_form->display();
-        $fs = get_file_storage();
-        $files = $fs->get_area_files(context_system::instance()->id, 'paygw_bank', 'transfer', $bank_entry->id);
-        foreach ($files as $f) {
-            // $f is an instance of stored_file
-            echo $f->get_filename();
-            $url = moodle_url::make_pluginfile_url($f->get_contextid(), $f->get_component(), $f->get_filearea(), $f->get_itemid(), $f->get_filepath(), $f->get_filename(), false);
-            if (str_ends_with($f->get_filename(), ".png") || str_ends_with($f->get_filename(), ".jpg") || str_ends_with($f->get_filename(), ".gif")) {
-                echo "<img src='$url'>";
-            }
-        }
-
         if ($at_form != null) {
             $content = $at_form->get_file_content('userfile');
 
             $name = $at_form->get_new_filename('userfile');
             if ($name) {
-                $tempdir = make_request_directory();
-                $fullpath = $tempdir . '/' . $name;
-                $success = $at_form->save_file('userfile', $fullpath, $override);
-                $fileinfo = array(
-                    'contextid' => context_system::instance()->id,
-                    'component' => 'paygw_bank',
-                    'filearea' => 'transfer',
-                    'filepath' => '/',
-                    'filename' =>  $name,
-                    'itemid' => $bank_entry->id,
-                    'userid' => $USER->id,
-                    'author' => fullname($USER->true)
-                );
+                
                 $fs = get_file_storage();
-                $fs->create_file_from_pathname($fileinfo, $fullpath);
-                bank_helper::check_hasfiles($bank_entry->id);
+                $isalreadyuplooaded=false;
+                $files=bank_helper::files($bank_entry->id);
+                if(count($files)>=$maxnumberfiles)
+                {
+                    \core\notification::error(get_string('max_number_of_files_reached', 'paygw_bank'));
+                }
+                else
+                {
+                    foreach ($files as $f) {
+                        
+                        $filename= $f->get_filename();
+                        if($name==$filename)
+                        {
+                            $isalreadyuplooaded=true;
+                        }
+                    }
+                    if($isalreadyuplooaded)
+                    {
+                        \core\notification::warning(get_string('file_already_uploaded', 'paygw_bank'));                 
+                    }
+                    else
+                    {
+                        $tempdir = make_request_directory();
+                        $fullpath = $tempdir . '/' . $name;
+                        $success = $at_form->save_file('userfile', $fullpath, $override);
+                        $fileinfo = array(
+                            'contextid' => context_system::instance()->id,
+                            'component' => 'paygw_bank',
+                            'filearea' => 'transfer',
+                            'filepath' => '/',
+                            'filename' =>  $name,
+                            'itemid' => $bank_entry->id,
+                            'userid' => $USER->id,
+                            'author' => fullname($USER->true)
+                        );
+                        $fs->create_file_from_pathname($fileinfo, $fullpath);
+                        bank_helper::check_hasfiles($bank_entry->id);
+                        \core\notification::info(get_string('file_uploaded', 'paygw_bank'));
+                    }
+                }
             }
         }
+        $files = bank_helper::files($bank_entry->id);
+        if(count($files)>0)
+        {
+            echo '<h3>'.get_string('files').':</h3>';
+            echo '<ul class="list-group">';
+            foreach ($files as $f) {
+                $hasfiles=true;
+                // $f is an instance of stored_file
+                echo '<li class="list-group-item">';
+               
+                $url = moodle_url::make_pluginfile_url($f->get_contextid(), $f->get_component(), $f->get_filearea(), $f->get_itemid(), $f->get_filepath(), $f->get_filename(), false);
+                if (str_ends_with($f->get_filename(), ".png")|| str_ends_with($f->get_filename(), ".jpeg") || str_ends_with($f->get_filename(), ".jpg")|| str_ends_with($f->get_filename(), ".svg") || str_ends_with($f->get_filename(), ".gif")) {           
+               
+                    echo $f->get_filename();
+                    echo "<br><img style='max-height:100px' src='".$url."'>";
+                }
+                else
+                {
+                    echo $f->get_filename();
+                }
+                echo '</li>';
+            }
+            echo "</ul>";
+                
+        }
+        if(count($files)<$maxnumberfiles)
+        {
+            $at_form->display();
+        }
+
     }
 }
 echo "</div>";

@@ -29,6 +29,7 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('paygw_bank_settings', '', get_string('pluginname_desc', 'paygw_bank')));
     $settings->add(new admin_setting_configcheckbox('paygw_bank/usercanuploadfiles', get_string('allow_users_add_files', 'paygw_bank'), '', 0));
+    $settings->add(new admin_setting_configtext('paygw_bank/maxnumberfiles',get_string('max_number_of_files', 'paygw_bank'),'', '3', PARAM_INT));
     \core_payment\helper::add_common_gateway_settings($settings, 'paygw_bank');
     $settings->add(new admin_setting_configcheckbox('paygw_bank/sendconfmail', get_string('send_confirmation_mail', 'paygw_bank'), '', 0));
     \core_payment\helper::add_common_gateway_settings($settings, 'paygw_bank');

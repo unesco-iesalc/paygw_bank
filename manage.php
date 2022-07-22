@@ -1,6 +1,7 @@
 <?php
 
 use core_payment\helper;
+use gwpayiments\bank_helper as GwpayimentsBank_helper;
 use paygw_bank\bank_helper as Paygw_bankBank_helper;
 use paygw_bank\bank_helper;
 
@@ -79,7 +80,10 @@ if (!$bank_entries) {
         </form>';
         $files = "-";
         $hasfiles = get_string('no');
-        if ($bank_entry->hasfiles > 0) {
+        $fs = get_file_storage();
+        $files = bank_helper::files($bank_entry->id);
+        if ($bank_entry->hasfiles > 0 || count($files)>0) {
+            $hasfiles = get_string('yes');
             $hasfiles = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop' . $bank_entry->id . '" id="launchmodal' . $bank_entry->id . '">
             View
           </button>
@@ -93,8 +97,6 @@ if (!$bank_entries) {
                 </div>
                 <div class="modal-body">
               ';
-            $fs = get_file_storage();
-            $files = $fs->get_area_files(context_system::instance()->id, 'paygw_bank', 'transfer', $bank_entry->id);
             foreach ($files as $f) {
                 // $f is an instance of stored_file
                 $url = moodle_url::make_pluginfile_url($f->get_contextid(), $f->get_component(), $f->get_filearea(), $f->get_itemid(), $f->get_filepath(), $f->get_filename(), false);
