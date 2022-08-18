@@ -166,6 +166,21 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
                         );
                         $fs->create_file_from_pathname($fileinfo, $fullpath);
                         bank_helper::check_hasfiles($bank_entry->id);
+                        $send_email = get_config('paygw_bank', 'sendnewattachmentsmail');
+                        $emailaddress=get_config('paygw_bank', 'notificationsaddress');
+                
+                        if ($send_email) {
+                            $supportuser = core_user::get_support_user();
+                            $subject = get_string('email_notifications_subject_attachments', 'paygw_bank');
+                            $contentmessage = new stdClass;
+                            $contentmessage->code = $record->code;
+                            $contentmessage->concept = $record->description;
+                            $mailcontent = get_string('email_notifications_new_attachments', 'paygw_bank', $contentmessage);
+                            $emailuser = new stdClass();
+                            $emailuser->email = $emailaddress;
+                            $emailuser->id = -99;
+                            email_to_user($emailuser, $supportuser, $subject, $mailcontent);
+                        }
                         \core\notification::info(get_string('file_uploaded', 'paygw_bank'));
                     }
                 }

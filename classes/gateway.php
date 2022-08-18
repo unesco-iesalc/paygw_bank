@@ -35,10 +35,13 @@ class gateway extends \core_payment\gateway
     {
         // See https://developer.bank.com/docs/api/reference/currency-codes/,
         // 3-character ISO-4217: https://en.wikipedia.org/wiki/ISO_4217#Active_codes.
-        return [
+        $alternatecurrencies=get_config('paygw_bank', 'aditionalcurrencies');
+        $altcurrenc=explode(',',$alternatecurrencies);
+        $initialcurrencies=[
             'AUD', 'BRL', 'CAD', 'CHF', 'CZK', 'DKK', 'EUR', 'GBP', 'HKD', 'HUF', 'ILS', 'INR', 'JPY',
             'MXN', 'MYR', 'NOK', 'NZD', 'PHP', 'PLN', 'RUB', 'SEK', 'SGD', 'THB', 'TRY', 'TWD', 'USD'
         ];
+        return array_merge($initialcurrencies,$altcurrenc);
     }
 
     /**

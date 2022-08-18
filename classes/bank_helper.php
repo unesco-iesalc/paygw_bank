@@ -89,6 +89,20 @@ class bank_helper
             $mailcontent = get_string('mail_confirm_pay', 'paygw_bank', $contentmessage);
             email_to_user($USER, $supportuser, $subject, $mailcontent);
         }
+        $send_email = get_config('paygw_bank', 'senconfirmailtosupport');
+        $emailaddress=get_config('paygw_bank', 'notificationsaddress');
+        if ($send_email) {
+            $supportuser = core_user::get_support_user();
+            $subject = get_string('email_notifications_subject_confirm', 'paygw_bank');
+            $contentmessage = new stdClass;
+            $contentmessage->code = $record->code;
+            $contentmessage->concept = $record->description;
+            $mailcontent = get_string('email_notifications_confirm', 'paygw_bank', $contentmessage);
+            $emailuser = new stdClass();
+            $emailuser->email = $emailaddress;
+            $emailuser->id = -99;
+            email_to_user($emailuser, $supportuser, $subject, $mailcontent);
+        }
         $transaction->allow_commit();
 
         return $record;
@@ -176,6 +190,21 @@ class bank_helper
         $record->id = $id;
         $record->code = bank_helper::create_code($id);
         $DB->update_record('paygw_bank', $record);
+        $send_email = get_config('paygw_bank', 'sendnewrequestmail');
+        $emailaddress=get_config('paygw_bank', 'notificationsaddress');
+
+        if ($send_email) {
+            $supportuser = core_user::get_support_user();
+            $subject = get_string('email_notifications_subject_new', 'paygw_bank');
+            $contentmessage = new stdClass;
+            $contentmessage->code = $record->code;
+            $contentmessage->concept = $record->description;
+            $mailcontent = get_string('email_notifications_new_request', 'paygw_bank', $contentmessage);
+            $emailuser = new stdClass();
+            $emailuser->email = $emailaddress;
+            $emailuser->id = -99;
+            email_to_user($emailuser, $supportuser, $subject, $mailcontent);
+        }
         return $record;
     }
     public static function create_code($id): string
