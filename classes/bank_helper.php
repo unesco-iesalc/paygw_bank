@@ -81,20 +81,25 @@ class bank_helper
         $send_email = get_config('paygw_bank', 'sendconfmail');
         if ($send_email) {
             $supportuser = core_user::get_support_user();
-            $fullname = fullname($USER, true);
+            $paymentuser=bank_helper::get_user($record->userid);
+            $fullname = fullname($paymentuser, true);
+            $userlang=$USER->lang;
+            $USER->lang=$paymentuser->lang;
             $subject = get_string('mail_confirm_pay_subject', 'paygw_bank');
             $contentmessage = new stdClass;
             $contentmessage->username = $fullname;
+            $contentmessage->code = $record->code;
             $contentmessage->concept = $record->description;
             $mailcontent = get_string('mail_confirm_pay', 'paygw_bank', $contentmessage);
-            email_to_user($USER, $supportuser, $subject, $mailcontent);
+            email_to_user($paymentuser, $supportuser, $subject, $mailcontent);
+            $USER->lang=$userlang;
         }
         $send_email = get_config('paygw_bank', 'senconfirmailtosupport');
         $emailaddress=get_config('paygw_bank', 'notificationsaddress');
         if ($send_email) {
             $supportuser = core_user::get_support_user();
             $subject = get_string('email_notifications_subject_confirm', 'paygw_bank');
-            $contentmessage = new stdClass;
+             $contentmessage = new stdClass;
             $contentmessage->code = $record->code;
             $contentmessage->concept = $record->description;
             $mailcontent = get_string('email_notifications_confirm', 'paygw_bank', $contentmessage);
@@ -113,12 +118,16 @@ class bank_helper
         $files = $fs->get_area_files(\context_system::instance()->id, 'paygw_bank', 'transfer', $id);
         $realfiles=array();
         foreach ($files as $f) {
-            if($f->get_filename()!='.')
-            {
-                array_push($realfiles,$f);
+            if($f->get_filename()!='.') {
+                array_push($realfiles, $f);
             }
         }
         return $realfiles;
+    }
+    public static function get_user($userid)
+    {
+        global $DB;
+        return $DB->get_record('user', ['id' => $userid]);
     }
     public static function deny_pay($id): \stdClass
     {
@@ -127,6 +136,7 @@ class bank_helper
         $record = $DB->get_record('paygw_bank', ['id' => $id]);
         $config = (object) payment_helper::get_gateway_configuration($record->component, $record->paymentarea, $record->itemid, 'bank');
         $payable = payment_helper::get_payable($record->component, $record->paymentarea, $record->itemid);
+        $paymentuser=bank_helper::get_user($record->userid);
         $record->timechecked = time();
         $record->status = 'D';
         $record->usercheck = $USER->id;
@@ -134,13 +144,18 @@ class bank_helper
         $send_email = get_config('paygw_bank', 'senddenmail');
         if ($send_email) {
             $supportuser = core_user::get_support_user();
-            $fullname = fullname($USER, true);
+            $fullname = fullname($paymentuser, true);
+            $userlang=$USER->lang;
+            $USER->lang=$paymentuser->lang;
+          
             $subject = get_string('mail_denied_pay_subject', 'paygw_bank');
             $contentmessage = new stdClass;
             $contentmessage->username = $fullname;
+            $contentmessage->code = $record->code;
             $contentmessage->concept = $record->description;
             $mailcontent = get_string('mail_denied_pay', 'paygw_bank', $contentmessage);
-            email_to_user($USER, $supportuser, $subject, $mailcontent);
+            email_to_user($paymentuser, $supportuser, $subject, $mailcontent);
+            $USER->lang=$userlang;
         }
         $transaction->allow_commit();
         return $record;
