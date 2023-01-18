@@ -31,6 +31,16 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_paygw_bank_upgrade(int $oldversion): bool
 {
     global $DB;
+    
+    $dbman = $DB->get_manager();
 
+    if ($oldversion <  2023011801) {
+        // Define key paymentid (foreign-unique) to be added to paygw_paypal.
+        $table = new xmldb_table('paygw_bank');
+        $field = new xmldb_field('totalamount', XMLDB_TYPE_NUMBER, '15, 5', null, XMLDB_NOTNULL, null, null, 'userid');
+        // Alter the 'element' column to be characters, rather than text.
+        $dbman->change_field_type($table, $field);
+        upgrade_plugin_savepoint(true, 2023011801, 'paygw', 'bank');
+    }
     return true;
 }
