@@ -47,6 +47,7 @@ $string['deny'] = 'Deny';
 $string['my_pending_payments'] = 'My pending Transfer payments';
 $string['transfer_process_initiated'] = 'Transfer process initiated';
 $string['manage'] = 'Manage Transfers';
+$string['bank:managepayments'] = 'Manage Transfers';
 $string['managepayments'] = 'Manage Transfers';
 $string['noentriesfound'] = 'No entries found';
 $string['send_confirmation_mail'] = 'Send confirmation mail';

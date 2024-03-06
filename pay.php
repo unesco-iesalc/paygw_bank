@@ -9,8 +9,7 @@ require_once __DIR__ . '/../../../config.php';
 require_once './lib.php';
 $canuploadfiles = get_config('paygw_bank', 'usercanuploadfiles');
 $maxnumberfiles = get_config('paygw_bank', 'maxnumberfiles');
-if(!$maxnumberfiles)
-{
+if(!$maxnumberfiles) {
     $maxnumberfiles=3;
 }
 require_login();
@@ -71,7 +70,7 @@ echo '<div class="card">';
 echo '<div class="card-body">';
 echo '<ul class="list-group list-group-flush">';
 echo '<li class="list-group-item"><h5 class="card-title">' . get_string('concept', 'paygw_bank') . ':</h5>';
-echo '<div>' . $description . '</div>';
+echo '<div>' . json_decode('"'.$description.'"') . '</div>';
 echo "</li>";
 $aceptform = "";
 $instructions = "";
@@ -131,8 +130,7 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
                 $fs = get_file_storage();
                 $isalreadyuplooaded=false;
                 $files=bank_helper::files($bank_entry->id);
-                if(count($files)>=$maxnumberfiles)
-                {
+                if(count($files)>=$maxnumberfiles) {
                     \core\notification::error(get_string('max_number_of_files_reached', 'paygw_bank'));
                 }
                 else
@@ -140,13 +138,11 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
                     foreach ($files as $f) {
                         
                         $filename= $f->get_filename();
-                        if($name==$filename)
-                        {
+                        if($name==$filename) {
                             $isalreadyuplooaded=true;
                         }
                     }
-                    if($isalreadyuplooaded)
-                    {
+                    if($isalreadyuplooaded) {
                         \core\notification::warning(get_string('file_already_uploaded', 'paygw_bank'));                 
                     }
                     else
@@ -187,8 +183,7 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
             }
         }
         $files = bank_helper::files($bank_entry->id);
-        if(count($files)>0)
-        {
+        if(count($files)>0) {
             echo '<h3>'.get_string('files').':</h3>';
             echo '<ul class="list-group">';
             foreach ($files as $f) {
@@ -211,8 +206,7 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
             echo "</ul>";
                 
         }
-        if(count($files)<$maxnumberfiles)
-        {
+        if(count($files)<$maxnumberfiles) {
             $at_form->display();
         }
 

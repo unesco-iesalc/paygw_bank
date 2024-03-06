@@ -58,7 +58,7 @@ class bank_helper
     public static function aprobe_pay($id): \stdClass
     {
         global $DB, $USER;
-        $transaction = $DB->start_delegated_transaction();;
+        $transaction = $DB->start_delegated_transaction();
         $record = $DB->get_record('paygw_bank', ['id' => $id]);
         $config = (object) payment_helper::get_gateway_configuration($record->component, $record->paymentarea, $record->itemid, 'bank');
         $payable = payment_helper::get_payable($record->component, $record->paymentarea, $record->itemid);
@@ -67,7 +67,7 @@ class bank_helper
             $record->component,
             $record->paymentarea,
             $record->itemid,
-            (int) $USER->id,
+            (int) $record->userid,
             $record->totalamount,
             $payable->get_currency(),
             'bank'
