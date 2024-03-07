@@ -75,7 +75,7 @@ echo "</li>";
 $aceptform = "";
 $instructions = "";
 
-$instructions = $config->instructionstext['text'];
+$instructions = format_text($config->instructionstext['text']);
 
 if (bank_helper::has_openbankentry($itemid, $USER->id)) {
     $bank_entry = bank_helper::get_openbankentry($itemid, $USER->id);
@@ -113,7 +113,7 @@ if ($bank_entry != null) {
     echo '<li class="list-group-item"><h4 class="card-title">' . get_string('transfer_code', 'paygw_bank') . ':</h4>';
     echo '<div id="price">' . $bank_entry->code . '</div>';
     echo '</li>';
-    $instructions = $config->postinstructionstext['text'];
+    $instructions = format_text($config->postinstructionstext['text']);
 }
 echo "</ul>";
 echo '<div id="bankinstructions">' . $instructions . '</div>';
