@@ -19,6 +19,7 @@ $component = required_param('component', PARAM_COMPONENT);
 $paymentarea = required_param('paymentarea', PARAM_AREA);
 $itemid = required_param('itemid', PARAM_INT);
 $description = required_param('description', PARAM_TEXT);
+$description=json_decode('"'.$description.'"');
 $params = [
     'component' => $component,
     'paymentarea' => $paymentarea,
@@ -70,7 +71,7 @@ echo '<div class="card">';
 echo '<div class="card-body">';
 echo '<ul class="list-group list-group-flush">';
 echo '<li class="list-group-item"><h5 class="card-title">' . get_string('concept', 'paygw_bank') . ':</h5>';
-echo '<div>' . json_decode('"'.$description.'"') . '</div>';
+echo '<div>' . $description. '</div>';
 echo "</li>";
 $aceptform = "";
 $instructions = "";
