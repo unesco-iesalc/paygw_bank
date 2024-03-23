@@ -112,7 +112,7 @@ if ($surcharge && $surcharge > 0 && $bank_entry == null) {
 }
 if ($bank_entry != null) {
     echo '<li class="list-group-item"><h4 class="card-title">' . get_string('transfer_code', 'paygw_bank') . ':</h4>';
-    echo '<div id="price">' . $bank_entry->code . '</div>';
+    echo '<div id="transfercode">' . $bank_entry->code . '</div>';
     echo '</li>';
     $instructions = format_text($config->postinstructionstext['text']);
 }
