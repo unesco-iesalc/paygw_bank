@@ -44,7 +44,7 @@ if (!$bank_entries) {
 
         // Add surcharge if there is any.
         $surcharge = helper::get_gateway_surcharge('paypal');
-        $amount = helper::get_rounded_cost($payable->get_amount(), $currency, $surcharge);
+        $amount = helper::get_cost_as_string($payable->get_amount(), $currency, $surcharge);
         $component = $bank_entry->component;
         $paymentarea = $bank_entry->paymentarea;
         $itemid = $bank_entry->itemid;
@@ -58,7 +58,7 @@ if (!$bank_entries) {
             $hasfiles = get_string('no');
             
             $files=bank_helper::files($bank_entry->id);
-            if ( count($files)>0) {
+            if (count($files)>0) {
                 $hasfiles = get_string('yes');
             }
             array_push($dataarray, $hasfiles);
