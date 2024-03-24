@@ -95,15 +95,14 @@ if (bank_helper::has_openbankentry($itemid, $USER->id)) {
 }
 
 if ($surcharge && $surcharge > 0 && $bank_entry == null) {
-    if ($surcharge && $surcharge > 0 && $bank_entry == null) {
-        echo '<li class="list-group-item"><h4 class="card-title">' . get_string('cost', 'paygw_bank') . ':</h4>';
-        echo '<div id="price">' . helper::get_cost_as_string($payable->get_amount(), $currency) . '</div>';
-        echo '</li>';
-        echo '<li class="list-group-item"><h4 class="card-title">' . get_string('surcharge', 'core_payment') . ':</h4>';
-        echo '<div id="price">' . $surcharge. '%</div>';
-        echo '<div id="explanation">' . get_string('surcharge_desc', 'core_payment') . '</div>';
-        echo '</li>';
-    }
+    echo '<li class="list-group-item"><h4 class="card-title">' . get_string('cost', 'paygw_bank') . ':</h4>';
+    echo '<div id="price">' . helper::get_cost_as_string($payable->get_amount(), $currency) . '</div>';
+    echo '</li>';
+    echo '<li class="list-group-item"><h4 class="card-title">' . get_string('surcharge', 'core_payment') . ':</h4>';
+    echo '<div id="price">' . $surcharge. '%</div>';
+    echo '<div id="explanation">' . get_string('surcharge_desc', 'core_payment') . '</div>';
+    echo '</li>';
+    
     echo '<li class="list-group-item"><h4 class="card-title">' . get_string('total_cost', 'paygw_bank') . ':</h4>';
     echo '<div id="price">' .helper::get_cost_as_string($amount, $currency). ' ' . $currency . '</div>';
     echo '</li>';
