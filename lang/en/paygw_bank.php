@@ -73,3 +73,4 @@ $string['send_new_attachments_mail'] = 'Send email to new files in request';
 $string['send_confirm_mail_to_support'] = 'Send email when a payment is approved';
 $string['additional_currencies'] = 'Aditional Currencies';
 $string['additional_currencies_help'] = 'A comma separated list of currency codes. You can consult the codes in https://en.wikipedia.org/wiki/ISO_4217#Active_codes';
+$string['codeprefix'] = 'Code prefix';

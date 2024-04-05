@@ -64,6 +64,10 @@ class gateway extends \core_payment\gateway
         $mform->setType('instructionstext', PARAM_RAW);
         $mform->addElement('editor', 'postinstructionstext', get_string('postinstructionstext', 'paygw_bank'));
         $mform->setType('postinstructionstext', PARAM_RAW);
+        $mform->addElement('text', 'codeprefix', get_string('codeprefix', 'paygw_bank'));
+        $mform->setType('codeprefix', PARAM_RAW);
+        //add default value to codeprefix
+        $mform->setDefault('codeprefix', 'code');
     }
 
     /**

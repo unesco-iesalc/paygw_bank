@@ -33,6 +33,7 @@ require_once $CFG->libdir . '/filelib.php';
 use core_payment\helper as payment_helper;
 use stdClass;
 
+
 class bank_helper
 {
 
@@ -188,6 +189,8 @@ class bank_helper
         if (bank_helper::has_openbankentry($itemid, $userid)) {
             return null;
         }
+        $config = (object) payment_helper::get_gateway_configuration($component, $paymentarea, $itemid, 'bank');
+        
         $record = new \stdClass();
         $record->itemid = $itemid;
         $record->component = $component;
@@ -203,7 +206,8 @@ class bank_helper
 
         $id = $DB->insert_record('paygw_bank', $record);
         $record->id = $id;
-        $record->code = bank_helper::create_code($id);
+        $codeprefix=$config->codeprefix;
+        $record->code = bank_helper::create_code($id, $codeprefix);
         $DB->update_record('paygw_bank', $record);
         $send_email = get_config('paygw_bank', 'sendnewrequestmail');
         $emailaddress=get_config('paygw_bank', 'notificationsaddress');
@@ -222,8 +226,14 @@ class bank_helper
         }
         return $record;
     }
-    public static function create_code($id): string
+    public static function create_code($id,$codeprefix=null): string
     {
-        return "code_" . $id;
+        if($codeprefix) {
+            return $codeprefix . "_" . $id;
+        }
+        else
+        {
+            return "code_" . $id;
+        }
     }
 }
