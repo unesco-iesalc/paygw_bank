@@ -85,9 +85,8 @@ if (!$bank_entries) {
         if ($bank_entry->hasfiles > 0 || count($files)>0) {
             $hasfiles = get_string('yes');
             $hasfiles = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop' . $bank_entry->id . '" id="launchmodal' . $bank_entry->id . '">
-            View
+            '. get_string('view') .'
           </button>
-          <!-- Modal -->
             <div class="modal fade" id="staticBackdrop' . $bank_entry->id . '" aria-labelledby="staticBackdropLabel' . $bank_entry->id . '" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
