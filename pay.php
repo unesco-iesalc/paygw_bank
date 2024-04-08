@@ -104,11 +104,11 @@ if ($surcharge && $surcharge > 0 && $bank_entry == null) {
     echo '</li>';
     
     echo '<li class="list-group-item"><h4 class="card-title">' . get_string('total_cost', 'paygw_bank') . ':</h4>';
-    echo '<div id="price">' .helper::get_cost_as_string($amount, $currency). ' ' . $currency . '</div>';
+    echo '<div id="price">' .helper::get_cost_as_string($amount, $currency). ' </div>';
     echo '</li>';
 } else {
     echo '<li class="list-group-item"><h4 class="card-title">' . get_string('total_cost', 'paygw_bank') . ':</h4>';
-    echo '<div id="price">' . helper::get_cost_as_string($amount, $currency). ' ' . $currency . '</div>';
+    echo '<div id="price">' . helper::get_cost_as_string($amount, $currency). '</div>';
     echo '</li>';
 }
 if ($bank_entry != null) {
