@@ -130,7 +130,7 @@ class bank_helper
         global $DB;
         return $DB->get_record('user', ['id' => $userid]);
     }
-    public static function deny_pay($id): \stdClass
+    public static function deny_pay($id,$canceledbyuser=false): \stdClass
     {
         global $DB, $USER;
         $transaction = $DB->start_delegated_transaction();;
@@ -141,6 +141,7 @@ class bank_helper
         $record->timechecked = time();
         $record->status = 'D';
         $record->usercheck = $USER->id;
+        $record->canceledbyuser=$canceledbyuser;
         $DB->update_record('paygw_bank', $record);
         $send_email = get_config('paygw_bank', 'senddenmail');
         if ($send_email) {
@@ -152,6 +153,7 @@ class bank_helper
             $subject = get_string('mail_denied_pay_subject', 'paygw_bank');
             $contentmessage = new stdClass;
             $contentmessage->username = $fullname;
+            $contentmessage->useremail = $paymentuser->email;
             $contentmessage->code = $record->code;
             $contentmessage->concept = $record->description;
             $mailcontent = get_string('mail_denied_pay', 'paygw_bank', $contentmessage);

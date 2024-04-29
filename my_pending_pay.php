@@ -9,6 +9,7 @@ require_login();
 $context = context_system::instance(); // Because we "have no scope".
 $PAGE->set_context(context_user::instance($USER->id));
 $canuploadfiles=get_config('paygw_bank', 'usercanuploadfiles');
+$allowusercancel=get_config('paygw_bank', 'allowusercancel');
 $PAGE->set_url('/payment/gateway/bank/my_pending_pay.php', $params);
 $PAGE->set_pagelayout('standard');
 $PAGE->set_title(get_string('my_pending_payments', 'paygw_bank'));
@@ -16,8 +17,24 @@ $PAGE->navigation->extend_for_user($USER->id);
 $PAGE->set_heading(get_string('my_pending_payments', 'paygw_bank'));
 $PAGE->navbar->add(get_string('profile'), new moodle_url('/user/profile.php', array('id' => $USER->id)));
 $PAGE->navbar->add(get_string('my_pending_payments', 'paygw_bank'));
+$action = optional_param('action', '', PARAM_TEXT);
+$confirm = optional_param('confirm', 0, PARAM_INT);
+$id = optional_param('id', 0, PARAM_INT);
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('my_pending_payments', 'paygw_bank'), 2);
+//if request method is POST
+$requestMethod = $_SERVER['REQUEST_METHOD'];
+
+if ($requestMethod == 'POST') {
+    if ($confirm == 1 && $id > 0 && $allowusercancel) {
+        require_sesskey();
+        if ($action == 'D') {
+            bank_helper::deny_pay($id, true);
+            \core\notification::info(get_string('payment_denied', 'paygw_bank'));
+            $OUTPUT->notification(get_string('payment_denied', 'paygw_bank'));
+        }
+    }
+}
 $bank_entries= bank_helper::get_user_pending($USER->id);
 if (!$bank_entries) {
     $match = array();
@@ -50,7 +67,20 @@ if (!$bank_entries) {
         $itemid = $bank_entry->itemid;
         $description = $bank_entry->description;
         $urlpay=new moodle_url('/payment/gateway/bank/pay.php', array('component' => $component,'paymentarea' => $paymentarea,'itemid' => $itemid,'description' => $description));
-        $buttongo='<a class="btn btn-primary" href="'.$urlpay.'">'.get_string('go').'</a>';
+        $buttongo='<a class="btn btn-primary btn-block" href="'.$urlpay.'">'.get_string('go').'</a>';
+        $buttondeny = '<form action="my_pending_pay.php" id="cancel_' . $bank_entry->id . '" method="POST">
+        <input type="hidden" name="sesskey" value="' .sesskey(). '">
+        <input type="hidden" name="id" value="' . $bank_entry->id . '">
+        <input type="hidden" name="action" value="D">
+        <input type="hidden" name="confirm" value="1">
+        <input class="btn btn-primary btn-block" type="submit" data-modal="confirmation" data-modal-title-str=\'["cancel_process", "paygw_bank"]\'
+        data-modal-content-str=\'["are_you_sure_cancel","paygw_bank"]\' data-modal-destination="javascript:document.getElementById(\'cancel_' . $bank_entry->id . '\').submit()" data-modal-yes-button-str=\'["yes", "core"]\' value="' . get_string("cancel_process", "paygw_bank") . '"></input>
+        </form>';
+        $buttons=$buttongo;
+        if($allowusercancel) {
+            $buttons=$buttongo.$buttondeny;
+        }
+        $buttons='<div class="d-grid gap-2">'.$buttons.'</div>';
         $dataarray=array(date('Y-m-d', $bank_entry->timecreated), $bank_entry->code,$bank_entry->description,
         $amount,$currency);
      
@@ -63,7 +93,7 @@ if (!$bank_entries) {
             }
             array_push($dataarray, $hasfiles);
         }
-        array_push($dataarray, $buttongo);
+        array_push($dataarray, $buttons);
         $table->data[]= $dataarray;
     }
     echo html_writer::table($table);

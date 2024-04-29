@@ -29,6 +29,9 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('paygw_bank_settings', '', get_string('pluginname_desc', 'paygw_bank')));
     $settings->add(new admin_setting_configcheckbox('paygw_bank/usercanuploadfiles', get_string('allow_users_add_files', 'paygw_bank'), '', 0));
+    $settings->add(new admin_setting_configcheckbox('paygw_bank/allowusercancel', get_string('allow_users_cancel_payments', 'paygw_bank'), '', 0));
+   
+   
     $settings->add(new admin_setting_configtext('paygw_bank/maxnumberfiles', get_string('max_number_of_files', 'paygw_bank'), '', '3', PARAM_INT));
     $settings->add(new admin_setting_configtext('paygw_bank/aditionalcurrencies', get_string('additional_currencies', 'paygw_bank'), get_string('additional_currencies_help', 'paygw_bank'), '', PARAM_TAGLIST));
     $settings->add(new admin_setting_configcheckbox('paygw_bank/sendconfmail', get_string('send_confirmation_mail', 'paygw_bank'), '', 0));

@@ -52,5 +52,19 @@ function xmldb_paygw_bank_upgrade(int $oldversion): bool
         $dbman->change_field_default($table, $field);
         upgrade_plugin_savepoint(true, 2023011901, 'paygw', 'bank');
     }
+    if ($oldversion < 2024042302) {
+
+        // Define field id to be added to paygw_bank.
+        $table = new xmldb_table('paygw_bank');
+        $field = new xmldb_field('canceledbyuser', XMLDB_TYPE_INTEGER, '1', null,null, null, null, null);
+
+        // Conditionally launch add field id.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        // Bank savepoint reached.
+        upgrade_plugin_savepoint(true, 2024042302, 'paygw', 'bank');
+    }
     return true;
 }
