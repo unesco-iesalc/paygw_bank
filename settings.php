@@ -29,8 +29,8 @@ if ($ADMIN->fulltree) {
 
     $settings->add(new admin_setting_heading('paygw_bank_settings', '', get_string('pluginname_desc', 'paygw_bank')));
     $settings->add(new admin_setting_configcheckbox('paygw_bank/usercanuploadfiles', get_string('allow_users_add_files', 'paygw_bank'), '', 0));
+    $settings->add(new admin_setting_configtext('paygw_bank/allowedfiletypes', get_string('allowed_file_types', 'paygw_bank'), get_string('allowed_file_types_help', 'paygw_bank'), '', PARAM_RAW));
     $settings->add(new admin_setting_configcheckbox('paygw_bank/allowusercancel', get_string('allow_users_cancel_payments', 'paygw_bank'), '', 0));
-   
    
     $settings->add(new admin_setting_configtext('paygw_bank/maxnumberfiles', get_string('max_number_of_files', 'paygw_bank'), '', '3', PARAM_INT));
     $settings->add(new admin_setting_configtext('paygw_bank/aditionalcurrencies', get_string('additional_currencies', 'paygw_bank'), get_string('additional_currencies_help', 'paygw_bank'), '', PARAM_TAGLIST));
@@ -38,7 +38,7 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('paygw_bank/senddenmail', get_string('send_denied_mail', 'paygw_bank'), '', 0));
     $settings->add(new admin_setting_heading('paygw_bank/notemails', get_string('email_notifications', 'paygw_bank'), get_string('email_notifications_help', 'paygw_bank'),));
     $settings->add(new admin_setting_configtext('paygw_bank/notificationsaddress', get_string('email_to_notify', 'paygw_bank'), '', '', PARAM_EMAIL));
-  
+    $settings-
     $settings->add(new admin_setting_configcheckbox('paygw_bank/sendnewrequestmail', get_string('send_new_request_mail', 'paygw_bank'), '', 0));
     $settings->add(new admin_setting_configcheckbox('paygw_bank/sendnewattachmentsmail', get_string('send_new_attachments_mail', 'paygw_bank'), '', 0));
     $settings->add(new admin_setting_configcheckbox('paygw_bank/senconfirmailtosupport', get_string('send_confirm_mail_to_support', 'paygw_bank'), '', 0));

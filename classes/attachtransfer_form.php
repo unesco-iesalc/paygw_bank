@@ -45,6 +45,11 @@ class attachtransfer_form extends \moodleform
         if (!empty($CFG->maxbytes)) {
             $maxbytes = $CFG->maxbytes;
         }
+        $accepted_types = array('document', 'image');
+        $cfgallowedfiletypes = get_config('paygw_bank', 'allowedfiletypes');
+        if (!empty($cfgallowedfiletypes)) {
+            $accepted_types = explode(',', $cfgallowedfiletypes);
+        }
         $mform = $this->_form;
         $mform->setDisableShortforms(true);
         $mform->addElement('hidden', 'confirm');
@@ -63,7 +68,7 @@ class attachtransfer_form extends \moodleform
             'userfile',
             get_string('file'),
             null,
-            array('maxbytes' => $maxbytes, 'accepted_types' => array('document','image'))
+            array('maxbytes' => $maxbytes, 'accepted_types' => $accepted_types)
         );
         $mform->addRule('userfile', null, 'required');
 

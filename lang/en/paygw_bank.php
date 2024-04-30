@@ -78,3 +78,5 @@ $string['additional_currencies'] = 'Aditional Currencies';
 $string['additional_currencies_help'] = 'A comma separated list of currency codes. You can consult the codes in https://en.wikipedia.org/wiki/ISO_4217#Active_codes';
 $string['codeprefix'] = 'Code prefix';
 $string['allow_users_cancel_payments'] = 'Allow users cancel payments';
+$string['allowed_file_types'] = 'Allowed file types';
+$string['allowed_file_types_help'] = 'A comma separated list of file extensions allowed to upload. If empty, all files document and image types are allowed.';
