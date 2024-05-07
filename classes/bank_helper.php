@@ -54,6 +54,7 @@ class bank_helper
             $DB->update_record('paygw_bank', $record);
             return $record;
         }
+        $transaction->allow_commit();
         return null;
     }
     public static function aprobe_pay($id): \stdClass
@@ -79,6 +80,7 @@ class bank_helper
         $record->paymentid = $paymentid;
         $DB->update_record('paygw_bank', $record);
         payment_helper::deliver_order($record->component, $record->paymentarea, $record->itemid, $paymentid, (int) $record->userid);
+        $transaction->allow_commit();
         $send_email = get_config('paygw_bank', 'sendconfmail');
         if ($send_email) {
             $supportuser = core_user::get_support_user();
@@ -114,7 +116,7 @@ class bank_helper
             $emailuser->id = -99;
             email_to_user($emailuser, $supportuser, $subject, $mailcontent);
         }
-        $transaction->allow_commit();
+        
 
         return $record;
     }
@@ -148,6 +150,7 @@ class bank_helper
         $record->usercheck = $USER->id;
         $record->canceledbyuser=$canceledbyuser;
         $DB->update_record('paygw_bank', $record);
+        $transaction->allow_commit();
         $send_email = get_config('paygw_bank', 'senddenmail');
         if ($send_email) {
             $supportuser = core_user::get_support_user();
@@ -165,7 +168,6 @@ class bank_helper
             email_to_user($paymentuser, $supportuser, $subject, $mailcontent);
             $USER->lang=$userlang;
         }
-        $transaction->allow_commit();
         return $record;
     }
 
