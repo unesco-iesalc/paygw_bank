@@ -52,9 +52,10 @@ class bank_helper
         if ($record->userid == $USER->id) {
             $record->hasfiles = 1;
             $DB->update_record('paygw_bank', $record);
+            $transaction->allow_commit();
             return $record;
         }
-        $transaction->allow_commit();
+        $transaction->rollback();
         return null;
     }
     public static function aprobe_pay($id): \stdClass
