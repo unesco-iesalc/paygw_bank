@@ -91,6 +91,8 @@ class bank_helper
             $contentmessage->username = $fullname;
             $contentmessage->code = $record->code;
             $contentmessage->concept = $record->description;
+            $contentmessage->useremail = $paymentuser->email;
+            $contentmessage->userfullname = fullname($paymentuser, true);
             $mailcontent = get_string('mail_confirm_pay', 'paygw_bank', $contentmessage);
             email_to_user($paymentuser, $supportuser, $subject, $mailcontent);
             $USER->lang=$userlang;
@@ -100,9 +102,12 @@ class bank_helper
         if ($send_email) {
             $supportuser = core_user::get_support_user();
             $subject = get_string('email_notifications_subject_confirm', 'paygw_bank');
-             $contentmessage = new stdClass;
+            $contentmessage = new stdClass;
+            $paymentuser=bank_helper::get_user($record->userid);
             $contentmessage->code = $record->code;
             $contentmessage->concept = $record->description;
+            $contentmessage->useremail = $paymentuser->email;
+            $contentmessage->userfullname = fullname($paymentuser, true);
             $mailcontent = get_string('email_notifications_confirm', 'paygw_bank', $contentmessage);
             $emailuser = new stdClass();
             $emailuser->email = $emailaddress;
@@ -193,6 +198,7 @@ class bank_helper
         }
         $config = (object) payment_helper::get_gateway_configuration($component, $paymentarea, $itemid, 'bank');
         
+        $user=bank_helper::get_user($userid);
         $record = new \stdClass();
         $record->itemid = $itemid;
         $record->component = $component;
@@ -220,6 +226,8 @@ class bank_helper
             $contentmessage = new stdClass;
             $contentmessage->code = $record->code;
             $contentmessage->concept = $record->description;
+            $contentmessage->useremail = $user->email;
+            $contentmessage->userfullname = fullname($user, true);
             $mailcontent = get_string('email_notifications_new_request', 'paygw_bank', $contentmessage);
             $emailuser = new stdClass();
             $emailuser->email = $emailaddress;

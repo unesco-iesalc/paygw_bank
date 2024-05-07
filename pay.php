@@ -173,6 +173,8 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
                             $contentmessage = new stdClass;
                             $contentmessage->code = $record->code;
                             $contentmessage->concept = $record->description;
+                            $contentmessage->useremail=$USER->email;
+                            $contentmessage->userfullname=fullname($USER,true);
                             $mailcontent = get_string('email_notifications_new_attachments', 'paygw_bank', $contentmessage);
                             $emailuser = new stdClass();
                             $emailuser->email = $emailaddress;
