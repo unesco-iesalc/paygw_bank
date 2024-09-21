@@ -106,15 +106,20 @@ if (!$bank_entries) {
         if ($filter != '' && ($bankentrykey != $filter)) {
             continue;
         }
-        $config = (object) helper::get_gateway_configuration($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid, 'bank');
-        $payable = helper::get_payable($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid);
-        $currency = $payable->get_currency();
+        try {
+            $config = (object) helper::get_gateway_configuration($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid, 'bank');
+            $payable = helper::get_payable($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid);
+            $currency = $payable->get_currency();
+            $amount = helper::get_rounded_cost($payable->get_amount(), $currency, helper::get_gateway_surcharge('paypal'));
+        } catch (\Exception $e) {
+            // If we can't get the configuration or payable, use the data from the bank entry
+            $currency = $bank_entry->currency;
+            $amount = $bank_entry->totalamount;
+        }
+
         $customer = $DB->get_record('user', array('id' => $bank_entry->userid));
         $fullname = fullname($customer, true);
 
-        // Add surcharge if there is any.
-        $surcharge = helper::get_gateway_surcharge('paypal');
-        $amount = helper::get_rounded_cost($payable->get_amount(), $currency, $surcharge);
         $buttonaprobe = '<form name="formapprovepay' . $bank_entry->id . '" method="POST">
         <input type="hidden" name="sesskey" value="' .sesskey(). '">
         <input type="hidden" name="id" value="' . $bank_entry->id . '">
