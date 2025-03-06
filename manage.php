@@ -40,12 +40,18 @@ echo '</select>
 </form>';
 
 echo $OUTPUT->heading(get_string('pending_payments', 'paygw_bank'), 2);
+
 if ($confirm == 1 && $id > 0) {
     require_sesskey();
     if ($action == 'A') {
-        bank_helper::aprobe_pay($id);
-        $OUTPUT->notification("aprobed");
-        \core\notification::info("aprobed");
+        // Check what has already been aprobed.
+        if ( $DB->record_exists('paygw_bank', ['id' => $id, 'status' => 'P']) ){
+            bank_helper::aprobe_pay($id);
+            $OUTPUT->notification("aprobed");
+            \core\notification::info("aprobed");
+        } else {
+            \core\notification::info("already been aprobed");
+        }
     }
     if ($action == 'D') {
         bank_helper::deny_pay($id);
