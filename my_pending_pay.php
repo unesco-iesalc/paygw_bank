@@ -61,7 +61,7 @@ if (!$bank_entries) {
 
         // Add surcharge if there is any.
         $surcharge = helper::get_gateway_surcharge('paypal');
-        $amount = helper::get_cost_as_string($payable->get_amount(), $currency, $surcharge);
+        $amount = helper::get_cost_as_string($bank_entry->totalamount, $currency, $surcharge);
         $component = $bank_entry->component;
         $paymentarea = $bank_entry->paymentarea;
         $itemid = $bank_entry->itemid;
