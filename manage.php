@@ -114,7 +114,7 @@ if (!$bank_entries) {
 
         // Add surcharge if there is any.
         $surcharge = helper::get_gateway_surcharge('paypal');
-        $amount = helper::get_rounded_cost($payable->get_amount(), $currency, $surcharge);
+        $amount = helper::get_rounded_cost($bank_entry->totalamount, $currency, $surcharge);
         $buttonaprobe = '<form name="formapprovepay' . $bank_entry->id . '" method="POST">
         <input type="hidden" name="sesskey" value="' .sesskey(). '">
         <input type="hidden" name="id" value="' . $bank_entry->id . '">
