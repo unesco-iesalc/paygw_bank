@@ -40,7 +40,6 @@ echo '</select>
 </form>';
 
 echo $OUTPUT->heading(get_string('pending_payments', 'paygw_bank'), 2);
-
 if ($confirm == 1 && $id > 0) {
     require_sesskey();
     if ($action == 'A') {
