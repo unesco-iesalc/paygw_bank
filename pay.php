@@ -151,6 +151,7 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
                     {
                         $tempdir = make_request_directory();
                         $fullpath = $tempdir . '/' . $name;
+                        $override = false; // Define $override variable
                         $success = $at_form->save_file('userfile', $fullpath, $override);
                         $fileinfo = array(
                             'contextid' => context_system::instance()->id,
@@ -160,7 +161,7 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
                             'filename' =>  $name,
                             'itemid' => $bank_entry->id,
                             'userid' => $USER->id,
-                            'author' => fullname($USER->true)
+                            'author' => fullname($USER)
                         );
                         $fs->create_file_from_pathname($fileinfo, $fullpath);
                         bank_helper::check_hasfiles($bank_entry->id);
@@ -171,10 +172,10 @@ if ($confirm == 0 && !bank_helper::has_openbankentry($itemid, $USER->id)) {
                             $supportuser = core_user::get_support_user();
                             $subject = get_string('email_notifications_subject_attachments', 'paygw_bank');
                             $contentmessage = new stdClass;
-                            $contentmessage->code = $record->code;
-                            $contentmessage->concept = $record->description;
+                            $contentmessage->code = $bank_entry->code;
+                            $contentmessage->concept = $bank_entry->description;
                             $contentmessage->useremail=$USER->email;
-                            $contentmessage->userfullname=fullname($USER,true);
+                            $contentmessage->userfullname=fullname($USER);
                             $mailcontent = get_string('email_notifications_new_attachments', 'paygw_bank', $contentmessage);
                             $emailuser = new stdClass();
                             $emailuser->email = $emailaddress;
