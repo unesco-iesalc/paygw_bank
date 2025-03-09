@@ -106,15 +106,26 @@ if (!$bank_entries) {
         if ($filter != '' && ($bankentrykey != $filter)) {
             continue;
         }
-        $config = (object) helper::get_gateway_configuration($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid, 'bank');
-        $payable = helper::get_payable($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid);
-        $currency = $payable->get_currency();
+        
+        // Always use the data from the bank entry
+        $currency = $bank_entry->currency;
+        $amount = $bank_entry->totalamount;
+
+        // Try to get additional information if available
+        try {
+            $config = (object) helper::get_gateway_configuration($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid, 'bank');
+            $payable = helper::get_payable($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid);
+            // If successful, update currency and apply surcharge
+            $currency = $payable->get_currency();
+            $amount = helper::get_rounded_cost($amount, $currency, helper::get_gateway_surcharge('paypal'));
+        } catch (\Exception $e) {
+            // If we can't get the configuration or payable, just use the bank entry data (already set)
+            debugging('Error getting payment configuration: ' . $e->getMessage(), DEBUG_DEVELOPER);
+        }
+
         $customer = $DB->get_record('user', array('id' => $bank_entry->userid));
         $fullname = fullname($customer, true);
 
-        // Add surcharge if there is any.
-        $surcharge = helper::get_gateway_surcharge('paypal');
-        $amount = helper::get_rounded_cost($payable->get_amount(), $currency, $surcharge);
         $buttonaprobe = '<form name="formapprovepay' . $bank_entry->id . '" method="POST">
         <input type="hidden" name="sesskey" value="' .sesskey(). '">
         <input type="hidden" name="id" value="' . $bank_entry->id . '">
@@ -217,7 +228,7 @@ function sendmail() {
                     <input type="hidden" name="action" value="sendmail">
                     <input type="hidden" name="confirm" value="1">
                     <input type="hidden" name="ids" id="ids" value="">
-        
+
                     <div class="form-group">
                         <label for="subject"><?php echo get_string('subject'); ?></label>
                         <input type="text" class="form-control" id="subject" name="subject" required>

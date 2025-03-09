@@ -44,19 +44,24 @@ class bank_helper
         $record = $DB->get_record('paygw_bank', ['itemid' => $itemid, 'userid' => $userid, 'status' => 'P']);
         return $record;
     }
-    public static function check_hasfiles($id): \stdClass
+    public static function check_hasfiles($id): ?\stdClass
     {
         global $DB, $USER;
         $transaction = $DB->start_delegated_transaction();
-        $record = $DB->get_record('paygw_bank', ['id' => $id]);
-        if ($record->userid == $USER->id) {
-            $record->hasfiles = 1;
-            $DB->update_record('paygw_bank', $record);
-            $transaction->allow_commit();
-            return $record;
+        try {
+            $record = $DB->get_record('paygw_bank', ['id' => $id]);
+            if ($record && $record->userid == $USER->id) {
+                $record->hasfiles = 1;
+                $DB->update_record('paygw_bank', $record);
+                $transaction->allow_commit();
+                return $record;
+            }
+            $transaction->rollback();
+            return null;
+        } catch (\Exception $e) {
+            $transaction->rollback();
+            return null;
         }
-        $transaction->rollback();
-        return null;
     }
     public static function aprobe_pay($id): \stdClass
     {
