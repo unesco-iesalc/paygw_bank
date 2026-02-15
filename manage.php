@@ -43,14 +43,29 @@ echo $OUTPUT->heading(get_string('pending_payments', 'paygw_bank'), 2);
 if ($confirm == 1 && $id > 0) {
     require_sesskey();
     if ($action == 'A') {
-        bank_helper::aprobe_pay($id);
-        $OUTPUT->notification("aprobed");
-        \core\notification::info("aprobed");
+        if(bank_helper::isaprobed($id)){
+            \core\notification::error("already-aprobed");
+            $OUTPUT->notification("aprobed");
+        
+        }
+        else
+        {
+            bank_helper::aprobe_pay($id);
+            $OUTPUT->notification("aprobed");
+            \core\notification::info("aprobed");
+        }
     }
     if ($action == 'D') {
-        bank_helper::deny_pay($id);
-        \core\notification::info("denied");
-        $OUTPUT->notification("denied");
+        if(bank_helper::isdenied($id)){
+            \core\notification::error("already-denied");
+            $OUTPUT->notification("denied");
+        }
+        else
+        {
+            bank_helper::deny_pay($id);
+            \core\notification::info("denied");
+            $OUTPUT->notification("denied");
+        }
     }
 }
 if ($confirm==1 && $ids!='' && $action=='sendmail') {

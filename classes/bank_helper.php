@@ -44,6 +44,27 @@ class bank_helper
         $record = $DB->get_record('paygw_bank', ['itemid' => $itemid, 'userid' => $userid, 'status' => 'P']);
         return $record;
     }
+    public static function isaprobed($id): bool
+    {
+        global $DB;
+        $record = $DB->get_record('paygw_bank', ['id' => $id]);
+        if ($record->status == 'A') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static function isdenied($id): bool
+    {
+        global $DB;
+        $record = $DB->get_record('paygw_bank', ['id' => $id]);
+        if ($record->status == 'D') {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static function check_hasfiles($id): ?\stdClass
     {
         global $DB, $USER;
