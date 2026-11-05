@@ -60,7 +60,7 @@ if (!$bank_entries) {
         $fullname = fullname($customer, true);  
 
         // Add surcharge if there is any.
-        $surcharge = helper::get_gateway_surcharge('paypal');
+        $surcharge = helper::get_gateway_surcharge('bank');
         $amount = helper::get_cost_as_string($payable->get_amount(), $currency, $surcharge);
         $component = $bank_entry->component;
         $paymentarea = $bank_entry->paymentarea;

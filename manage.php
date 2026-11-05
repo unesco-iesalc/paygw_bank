@@ -6,6 +6,7 @@ use gwpayiments\bank_helper as GwpayimentsBank_helper;
 use paygw_bank\bank_helper as Paygw_bankBank_helper;
 use paygw_bank\bank_helper;
 
+// Include the main Moodle configuration file.
 require_once __DIR__ . '/../../../config.php';
 require_once './lib.php';
 require_login();
@@ -14,6 +15,7 @@ $PAGE->set_context($context);
 $systemcontext = \context_system::instance();
 $PAGE->set_url('/payment/gateway/bank/manage.php');
 $PAGE->set_pagelayout('report');
+$PAGE->requires->jquery();
 $pagetitle = get_string('manage', 'paygw_bank');
 $PAGE->set_title($pagetitle);
 $PAGE->set_heading($pagetitle);
@@ -44,8 +46,8 @@ if ($confirm == 1 && $id > 0) {
     require_sesskey();
     if ($action == 'A') {
         if(bank_helper::isaprobed($id)){
-            \core\notification::error("already-aprobed");
-            $OUTPUT->notification("aprobed");
+            \core\notification::error(get_string('already-approved', 'paygw_bank'));
+            $OUTPUT->notification(get_string('already-approved', 'paygw_bank'));
         
         }
         else
@@ -57,8 +59,8 @@ if ($confirm == 1 && $id > 0) {
     }
     if ($action == 'D') {
         if(bank_helper::isdenied($id)){
-            \core\notification::error("already-denied");
-            $OUTPUT->notification("denied");
+            \core\notification::error(get_string('already-denied', 'paygw_bank'));
+            $OUTPUT->notification(get_string('already-denied', 'paygw_bank'));
         }
         else
         {
@@ -125,14 +127,14 @@ if (!$bank_entries) {
         // Always use the data from the bank entry
         $currency = $bank_entry->currency;
         $amount = $bank_entry->totalamount;
-
+        $amount = helper::get_cost_as_string($amount, $currency, 0);
         // Try to get additional information if available
         try {
             $config = (object) helper::get_gateway_configuration($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid, 'bank');
             $payable = helper::get_payable($bank_entry->component, $bank_entry->paymentarea, $bank_entry->itemid);
             // If successful, update currency and apply surcharge
             $currency = $payable->get_currency();
-            $amount = helper::get_rounded_cost($amount, $currency, helper::get_gateway_surcharge('paypal'));
+            $amount = helper::get_cost_as_string($payable->get_amount(), $currency, helper::get_gateway_surcharge('bank'));
         } catch (\Exception $e) {
             // If we can't get the configuration or payable, just use the bank entry data (already set)
             debugging('Error getting payment configuration: ' . $e->getMessage(), DEBUG_DEVELOPER);
@@ -227,7 +229,10 @@ function sendmail() {
         return;
     }
     document.getElementById('ids').value = ids;
-    $('#sendmailmodal').modal('show');
+
+    var bootstrapversion = typeof bootstrap === 'undefined' ? $().tooltip.Constructor.VERSION : bootstrap.Tooltip.VERSION;
+    var sendmailmodal=$('#sendmailmodal')
+    sendmailmodal.modal('show');
 }
 </script>
 <div class="modal fade" id="sendmailmodal"  aria-labelledby="sendmailmodalLabel" aria-hidden="true">
