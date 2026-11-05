@@ -51,8 +51,8 @@ if ($confirm == 1 && $id > 0) {
         else
         {
             bank_helper::aprobe_pay($id);
-            $OUTPUT->notification("aprobed");
-            \core\notification::info("aprobed");
+            $OUTPUT->notification(get_string('approved', 'paygw_bank'));
+            \core\notification::info(get_string('approved', 'paygw_bank'));
         }
     }
     if ($action == 'D') {
@@ -63,8 +63,8 @@ if ($confirm == 1 && $id > 0) {
         else
         {
             bank_helper::deny_pay($id);
-            \core\notification::info("denied");
-            $OUTPUT->notification("denied");
+            \core\notification::info(get_string('denied', 'paygw_bank'));
+            $OUTPUT->notification(get_string('denied', 'paygw_bank'));
         }
     }
 }
