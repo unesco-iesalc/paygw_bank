@@ -23,20 +23,19 @@
 import * as Ajax from 'core/ajax';
 import Templates from 'core/templates';
 //import Truncate from 'core/truncate';
-import ModalFactory from 'core/modal_factory';
 import ModalEvents from 'core/modal_events';
 //import {get_string as getString} from 'core/str';
  */
 
 import Templates from 'core/templates';
-import ModalFactory from 'core/modal_factory';
+import Modal from 'core/modal';
 /**
  * Creates and shows a modal that contains a placeholder.
  *
  * @returns {Promise<Modal>}
  */
 const showModalWithPlaceholder = async() => {
-    const modal = await ModalFactory.create({
+    const modal = await Modal.create({
         body: await Templates.render('paygw_bank/bank_button_placeholder', {})
     });
     modal.show();
