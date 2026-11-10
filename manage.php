@@ -164,15 +164,15 @@ if (!$bank_entries) {
         $files = bank_helper::files($bank_entry->id);
         if ($bank_entry->hasfiles > 0 || count($files)>0) {
             $hasfiles = get_string('yes');
-            $hasfiles = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop' . $bank_entry->id . '" id="launchmodal' . $bank_entry->id . '">
+            $hasfiles = '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop' . $bank_entry->id . '" data-bs-toggle="modal" data-bs-target="#staticBackdrop' . $bank_entry->id . '" id="launchmodal' . $bank_entry->id . '">
             '. get_string('view') .'
           </button>
             <div class="modal fade" id="staticBackdrop' . $bank_entry->id . '" aria-labelledby="staticBackdropLabel' . $bank_entry->id . '" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel' . $bank_entry->id . '">' . get_string('files') . '</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+                    <h5 class="modal-title" id="staticBackdropLabel' . $bank_entry->id . '">' . get_string('files') . ' </h5>
+                    <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal"  aria-label="Close"> <span aria-hidden="true">&times;</span></button>
        
                 </div>
                 <div class="modal-body">
@@ -181,7 +181,7 @@ if (!$bank_entries) {
                 // $f is an instance of stored_file
                 $url = moodle_url::make_pluginfile_url($f->get_contextid(), $f->get_component(), $f->get_filearea(), $f->get_itemid(), $f->get_filepath(), $f->get_filename(), false);
                 if (str_ends_with($f->get_filename(), ".png") || str_ends_with($f->get_filename(), ".jpg") || str_ends_with($f->get_filename(), ".gif")) {
-                    $hasfiles .= "<img src='$url'><br>";
+                    $hasfiles .= "<img src='$url'  width='100%'><br>";
                 } else {
                     $hasfiles .= '<a href="' . $url . '" target="_blank">.....' . $f->get_filename() . '</a><br>';
                 }
@@ -189,7 +189,7 @@ if (!$bank_entries) {
             $hasfiles .= '
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" data-bs-dismiss="modal">Close</button>
                 </div>
                 </div>
             </div>
@@ -229,10 +229,29 @@ function sendmail() {
         return;
     }
     document.getElementById('ids').value = ids;
+     
+    if (typeof require === 'function') {
+        require(['core/modal'], function(Modal) {
+            Modal.create({
+                title: document.getElementById('sendmailmodalLabel').innerHTML,
+                body: document.querySelector('#sendmailmodal .modal-body').innerHTML,
+                show: true,
+                removeOnClose: true
+            });
+        });
+        return;
+    }
 
-    var bootstrapversion = typeof bootstrap === 'undefined' ? $().tooltip.Constructor.VERSION : bootstrap.Tooltip.VERSION;
-    var sendmailmodal=$('#sendmailmodal')
-    sendmailmodal.modal('show');
+    var modalElement = document.getElementById('sendmailmodal');
+    if (typeof bootstrap !== 'undefined' && typeof bootstrap.Modal !== 'undefined') {
+        var modal = typeof bootstrap.Modal.getOrCreateInstance === 'function' ?
+            bootstrap.Modal.getOrCreateInstance(modalElement) : new bootstrap.Modal(modalElement);
+        modal.show();
+    } else if (typeof jQuery !== 'undefined' && typeof jQuery.fn.modal === 'function') {
+        jQuery(modalElement).modal('show');
+    } else {
+        throw new Error('Unable to open sendmail modal: no supported modal API was found.');
+    }
 }
 </script>
 <div class="modal fade" id="sendmailmodal"  aria-labelledby="sendmailmodalLabel" aria-hidden="true">
@@ -240,7 +259,7 @@ function sendmail() {
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="sendmailmodalLabel"><?php echo get_string('sendmailtoselected', 'paygw_bank'); ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
                 <form name="formsendmail" method="POST">
